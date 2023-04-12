@@ -12,6 +12,9 @@
   <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+  <!-- add gesture interaction (rotate and zoom)
+  author: https://github.com/fcor -->
+  <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
   <style>
     .arjs-loader {
       height: 100%;
@@ -45,6 +48,8 @@
       renderer="logarithmicDepthBuffer: true;"
       embedded
       arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: true;"
+      gesture-detector
+      id="scene"
     >
       <a-assets>
         <a-asset-item
@@ -62,6 +67,9 @@
         smoothCount="10"
         smoothTolerance=".01"
         smoothThreshold="5"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse"
       >
         <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity
         "./models/sunflower/sunflower.gltf" 
@@ -70,7 +78,10 @@
         <a-entity
           gltf-model="./models/muenzschlaeger.glb"
           scale="50 50 50"
-          position="0 0 0"
+          position="-1 -1 -5"
+          rotation="0 0 -90"
+          class="clickable"
+          gesture-handler="minScale: 0.25; maxScale: 10"
         >
           <!-- <a-entity
             bmfont-text="value: Hello, A-Frame!"
@@ -84,7 +95,7 @@
             position="0 0 -1"
           ></a-text> -->
           <a-entity
-            text-geometry="value: What's up"
+            text-geometry="value: Muenzschlaeger"
             material="color: white"
             rotation="-90 0 0"
             position="0 0 -1"
