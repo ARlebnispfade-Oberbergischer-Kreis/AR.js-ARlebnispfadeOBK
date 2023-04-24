@@ -56,6 +56,12 @@
           id="optimerBoldFont"
           src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"
         ></a-asset-item>
+        <video
+          id="video"
+          src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft-video/mov_bbb.mp4"
+          autoplay
+          loop
+        ></video>
       </a-assets>
       <!-- a-nft is the anchor that defines an Image Tracking entity -->
       <!-- on 'url' use the path to the Image Descriptors created before. -->
@@ -79,15 +85,10 @@
           gltf-model="./models/muenzschlaeger.glb"
           scale="50 50 50"
           position="-1 -1 -5"
-          rotation="0 0 -90"
+          rotation="0 0 0"
           class="clickable"
           gesture-handler="minScale: 0.25; maxScale: 10"
         >
-          <!-- <a-entity
-            bmfont-text="value: Hello, A-Frame!"
-            position="0 0 0"
-            scale="5 5 5"
-          ></a-entity> -->
           <!--           <a-text
             text="value: Muenzschlaeger"
             color="white"
@@ -101,6 +102,25 @@
             position="0 0 -1"
           ></a-entity>
         </a-entity>
+      </a-nft>
+
+      <a-nft
+        type="nft"
+        url="cranach-ar/AR.js-ARlebnispfadeOBK/imageTracking/images/hammerboy"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance=".01"
+        smoothThreshold="5"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse"
+      >
+        <a-video
+          src="#video"
+          width="160"
+          height="90"
+          position="0 0 -20"
+        ></a-video>
       </a-nft>
       <!-- static camera that moves according to the device movemenents -->
       <a-entity camera></a-entity>
