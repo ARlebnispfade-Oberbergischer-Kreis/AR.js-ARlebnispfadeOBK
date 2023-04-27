@@ -15,6 +15,35 @@
   <!-- add gesture interaction (rotate and zoom)
   author: https://github.com/fcor -->
   <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+  <script>
+    AFRAME.registerComponent("vidhandler", {
+      init: function () {
+        this.toggle = false;
+        this.vid = document.querySelector("#video");
+        this.vid.pause();
+      },
+      tick: function () {
+        if (this.el.object3D.visible == true) {
+          if (!this.toggle) {
+            this.toggle = true;
+            this.vid.play();
+          }
+        } else {
+          this.toggle = false;
+          this.vid.pause();
+        }
+      },
+    });
+
+    function refrespage() {
+      location.reload();
+    }
+
+    function playvid() {
+      vid.play();
+    }
+  </script>
   <style>
     .arjs-loader {
       height: 100%;
@@ -56,12 +85,8 @@
           id="optimerBoldFont"
           src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"
         ></a-asset-item>
-        <video
-          id="video"
-          src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft-video/mov_bbb.mp4"
-          autoplay
-          loop
-        ></video>
+        <!-- src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft-video/mov_bbb.mp4"-->
+        <video id="video" src="videos/mov_bbb.mp4" autoplay loop></video>
       </a-assets>
       <!-- a-nft is the anchor that defines an Image Tracking entity -->
       <!-- on 'url' use the path to the Image Descriptors created before. -->
@@ -114,13 +139,36 @@
         raycaster="objects: .clickable"
         emitevents="true"
         cursor="fuse: false; rayOrigin: mouse"
+        vidhandler
       >
         <a-video
           src="#video"
           width="160"
           height="90"
           position="0 0 -20"
+          rotation="90 0 180"
         ></a-video>
+      </a-nft>
+      <a-nft
+        type="nft"
+        url="cranach-ar/AR.js-ARlebnispfadeOBK/imageTracking/images/pulvermuseum"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance=".01"
+        smoothThreshold="5"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse"
+      >
+<!--         <a-entity
+          obj-model="obj: url(models/3d-Hologramm.obj); 
+            mtl: url(models/3d-Hologramm.mtl)"
+        >
+        </a-entity> -->
+        <a-entity 
+        gltf-model=”url(models/Parrot.glb)”
+        animation-mixer>
+        </a-entity>
       </a-nft>
       <!-- static camera that moves according to the device movemenents -->
       <a-entity camera></a-entity>
