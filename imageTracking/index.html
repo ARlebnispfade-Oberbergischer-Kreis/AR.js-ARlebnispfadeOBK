@@ -12,39 +12,34 @@
 
   <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-  <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+  <script src="https://rawgit.com/oscarmarinmiro/aframe-video-controls/master/dist/aframe-video-controls.min.js"></script>
   <!-- add gesture interaction (rotate and zoom)
   author: https://github.com/fcor -->
   <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
   <script>
-    AFRAME.registerComponent("vidhandler", {
-      init: function () {
-        this.toggle = false;
-        this.vid = document.querySelector("#video");
-        this.vid.pause();
-      },
-      tick: function () {
-        if (this.el.object3D.visible == true) {
-          if (!this.toggle) {
-            this.toggle = true;
-            this.vid.play();
-          }
-        } else {
-          this.toggle = false;
-          this.vid.pause();
-        }
-      },
-    });
-
-    function refrespage() {
-      location.reload();
+    AFRAME.registerComponent('vidhandler',{
+  init: function(){
+   let el = this.el;
+   let video = document.querySelector("#video");
+   video.controls = true
+   video.toggle = false;
+   video.pause();
+   console.log(video.controls)
+   el.addEventListener('click',function(){
+    if(video.toggle == false){
+      video.toggle = true
+      video.play()
+    }else{
+      video.toggle = false;
+      video.pause()
     }
-
-    function playvid() {
-      vid.play();
-    }
-
+   })
+   el.addEventListener('dblclick',function(){
+    video.stop()
+   })
+  }
+  });
     window.addEventListener('load', () => {
     const camera = document.querySelector('[camera]');
     const marker = document.querySelector('a-nft');
@@ -126,7 +121,7 @@
           src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"
         ></a-asset-item>
         <!-- src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft-video/mov_bbb.mp4"-->
-        <video id="video" src="videos/mov_bbb.mp4" autoplay loop></video>
+        <video id="video" controls src="videos/mov_bbb.mp4" autoplay loop></video>
       </a-assets>
       <!-- a-nft is the anchor that defines an Image Tracking entity -->
       <!-- on 'url' use the path to the Image Descriptors created before. -->
@@ -182,13 +177,26 @@
         cursor="fuse: false; rayOrigin: mouse"
         vidhandler
       >
-        <a-video
+      <a-video
+      src="#video"
+      width="160"
+      height="90"
+      position="0 0 -20"
+      rotation="90 0 180"
+      gesture-handler="minScale: 0.25; maxScale: 10"
+      vidhandler
+    ></a-video>
+<!--       <a-entity
           src="#video"
           width="160"
           height="90"
           position="0 0 -20"
           rotation="90 0 180"
-        ></a-video>
+          gesture-handler="minScale: 0.25; maxScale: 10"
+          vidhandler
+          video-controls="src:#video"
+      ></a-entity> -->
+
       </a-nft>
       <a-nft
         type="nft"
@@ -208,7 +216,9 @@
         </a-entity> -->
         <a-entity 
         gltf-model=”url(models/Parrot.glb)”
-        animation-mixer>
+        animation-mixer
+        gesture-handler="minScale: 0.25; maxScale: 10"
+        >
         </a-entity>
       </a-nft>
       <!-- static camera that moves according to the device movemenents -->
